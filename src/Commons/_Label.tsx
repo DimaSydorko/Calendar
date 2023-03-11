@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { colors } from '../Theme'
 
 type PropsT = {
   color?: string

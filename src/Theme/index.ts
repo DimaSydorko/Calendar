@@ -1,10 +1,91 @@
+import { createTheme, PaletteMode } from '@mui/material'
+import { amber, blue, grey } from '@mui/material/colors'
+
 export const size = {
   header: 48,
   dayInWeek: 28
 }
 
 export const colors = {
-  border: '#263238',
-  secondary: 'rgba(105,134,200,0.25)',
-  primary: '#7986cb'
+  secondary: grey[300],
+  primary: blue.A200,
+  menu: grey[800],
+  white: grey[50]
 }
+
+export const themeStyle = (mode: PaletteMode) =>
+  createTheme({
+    typography: {
+      h3: {
+        fontSize: 36,
+        margin: 'auto'
+      },
+      body1: {
+        lineHeight: 1
+      }
+    },
+    components: {
+      MuiTabs: {
+        styleOverrides: {
+          root: {
+            background: colors.menu
+          }
+        }
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 10,
+            textTransform: 'none'
+          }
+        }
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            borderRadius: 10
+          }
+        }
+      },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            borderRadius: 10
+          }
+        }
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            borderRadius: 10
+          }
+        }
+      }
+    },
+    palette: {
+      mode,
+      ...(mode === 'light'
+        ? {
+            primary: {
+              main: colors.primary
+            },
+            secondary: {
+              main: colors.secondary
+            },
+            divider: blue[200],
+            text: {
+              // primary: blue[500],
+              // lineHeight: ,
+              secondary: grey[400]
+            }
+          }
+        : {
+            primary: amber,
+            divider: amber[200],
+            text: {
+              primary: amber[900],
+              secondary: amber[800]
+            }
+          })
+    }
+  })

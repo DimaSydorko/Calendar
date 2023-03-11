@@ -1,5 +1,1 @@
 export { default as Label } from './_Label'
-export { default as DayOfWeek } from './_DayOfWeek'
-export { default as Mounth } from './_Mounth'
-export { default as Week } from './_Week'
-export { default as Day } from './_Day'

@@ -1,7 +1,12 @@
-import { HeaderContent } from './Styles'
+import MonthSelector from './MonthSelector'
+import { HeaderContent } from './styles'
 
 const Header = () => {
-  return <HeaderContent>Calendar</HeaderContent>
+  return (
+    <HeaderContent>
+      <MonthSelector />
+    </HeaderContent>
+  )
 }
 
 export default Header
