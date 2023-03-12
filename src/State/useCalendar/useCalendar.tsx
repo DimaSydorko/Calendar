@@ -1,14 +1,19 @@
 import { useCallback, useReducer } from 'react'
+import { HolidayT } from 'Utils/types'
 import { ContextT } from './index'
 
 export type CalendarStateT = {
   selectedMonth: number
+  holidays: HolidayT[]
 }
 
-export type ActionT = { type: 'SET_MONTH'; payload?: boolean }
+export type ActionT =
+  | { type: 'SET_MONTH'; payload?: boolean }
+  | { type: 'SET_HOLIDAYS'; payload: { holidays: HolidayT[] } }
 
 const initialState: CalendarStateT = {
-  selectedMonth: new Date().getTime()
+  selectedMonth: new Date().getTime(),
+  holidays: []
 }
 
 const tableReducer = (state: CalendarStateT, { type, payload }: ActionT): CalendarStateT => {
@@ -21,6 +26,8 @@ const tableReducer = (state: CalendarStateT, { type, payload }: ActionT): Calend
         const newDate = new Date(state.selectedMonth).setMonth(prev + (payload ? +1 : -1))
         return { ...state, selectedMonth: new Date(newDate).getTime() }
       }
+    case 'SET_HOLIDAYS':
+      return { ...state, ...payload }
     default:
       return state
   }
@@ -33,7 +40,11 @@ const useCalendar = (): ContextT => {
     dispatch({ type: 'SET_MONTH', payload: isIncrease })
   }, [])
 
-  return { calendarData, onChangeMonth }
+  const onSetHolidays = useCallback((holidays: HolidayT[]) => {
+    dispatch({ type: 'SET_HOLIDAYS', payload: { holidays } })
+  }, [])
+
+  return { calendarData, onSetHolidays, onChangeMonth }
 }
 
 export default useCalendar

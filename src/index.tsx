@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { CssBaseline } from '@mui/material'
+import { SnackbarProvider } from 'notistack'
 
 import UserDataProvider from 'State/useCalendar'
 import reportWebVitals from 'reportWebVitals'
@@ -9,12 +10,12 @@ import 'index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-  <React.StrictMode>
-    <UserDataProvider>
-      <CssBaseline />
+  <UserDataProvider>
+    <CssBaseline />
+    <SnackbarProvider maxSnack={3}>
       <App />
-    </UserDataProvider>
-  </React.StrictMode>
+    </SnackbarProvider>
+  </UserDataProvider>
 )
 
 reportWebVitals()

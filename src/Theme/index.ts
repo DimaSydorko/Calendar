@@ -19,9 +19,6 @@ export const themeStyle = (mode: PaletteMode) =>
       h3: {
         fontSize: 36,
         margin: 'auto'
-      },
-      body1: {
-        lineHeight: 1
       }
     },
     components: {
@@ -75,7 +72,6 @@ export const themeStyle = (mode: PaletteMode) =>
             divider: blue[200],
             text: {
               // primary: blue[500],
-              // lineHeight: ,
               secondary: grey[400]
             }
           }

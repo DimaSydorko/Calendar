@@ -7,6 +7,7 @@ type DayT = {
 
 export const Day = styled('div')<DayT>(({ isCurrent }) => ({
   height: `calc((100vh - ${size.header + size.dayInWeek}px - 7px - 16px) / 5)`,
+  position: 'relative',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'flex-start',
@@ -25,6 +26,7 @@ export const DayIdx = styled('div')<DayIdxT>(({ isCurrent }) => ({
   borderRadius: '8px',
   padding: '4px',
   display: 'flex',
+  lineHeight: 1.1,
   justifyContent: 'center',
   alignItems: 'flex-start',
   background: isCurrent ? colors.primary : undefined,
