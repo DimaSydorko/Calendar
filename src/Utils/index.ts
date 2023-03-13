@@ -1,5 +1,3 @@
-import { daysOfWeek } from './constants'
-
 export const getDaysInMonth = (time: number): (Date | string)[] => {
   const year = new Date(time).getFullYear()
   const month = new Date(time).getMonth()
@@ -23,10 +21,6 @@ export const getDaysInMonth = (time: number): (Date | string)[] => {
   return daysInMonth
 }
 
-export const getDayOfWeek = (date: Date): string => {
-  return daysOfWeek[date.getDay()]
-}
-
 export const getMonthYear = (date: Date): string => {
   return date.toString().slice(3, 8) + date.toString().slice(11, 15)
 }
@@ -37,4 +31,11 @@ export const isSameDay = (date1: Date, date2: Date): boolean => {
     date1.getMonth() === date2.getMonth() &&
     date1.getFullYear() === date2.getFullYear()
   )
+}
+
+export const dateToObjKey = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const year = date.getFullYear()
+  return `${year}-${month}-${day}`
 }

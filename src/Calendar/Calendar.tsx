@@ -7,6 +7,11 @@ import { getDaysInMonth } from 'Utils'
 import DayCell from './DayCell/DayCell'
 import { DayOfWeek, Mounth } from './styles'
 
+export type EditPositionT = {
+  anchorEl: HTMLElement
+  dateKey: string
+} | null
+
 const Calendar = () => {
   const { calendarData } = useCalendarContext()
   const { selectedMonth } = calendarData

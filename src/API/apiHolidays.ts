@@ -1,8 +1,8 @@
 import { instanceNager } from './index'
-import { ApiResponse, HolidayT } from 'Utils/types'
+import { ApiResponseType, HolidayT } from 'Utils/types'
 
 const apiHolidays = {
-  getWorldwide: async (): Promise<ApiResponse<HolidayT[]>> => {
+  getWorldwide: async (): Promise<ApiResponseType<HolidayT[]>> => {
     try {
       const response = await instanceNager.get<HolidayT[]>('NextPublicHolidaysWorldwide')
       return { data: response.data, err: null }

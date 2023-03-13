@@ -11,11 +11,11 @@ export type ContextT = {
 
 const CalendarContext = createContext<ContextT>(null!)
 
-export function useCalendarContext() {
+export const useCalendarContext = () => {
   return useContext(CalendarContext)
 }
 
-export default function UserDataProvider({ children }: any) {
+export default function CalendarProvider({ children }: any) {
   const value = useCalendar()
   return <CalendarContext.Provider value={value}>{children}</CalendarContext.Provider>
 }

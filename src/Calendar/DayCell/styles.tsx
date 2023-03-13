@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { colors, size } from 'Theme'
+import { Button, IconButton } from '@mui/material'
 
 type DayT = {
   isCurrent?: boolean
@@ -9,11 +10,14 @@ export const Day = styled('div')<DayT>(({ isCurrent }) => ({
   height: `calc((100vh - ${size.header + size.dayInWeek}px - 7px - 16px) / 5)`,
   position: 'relative',
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'flex-start',
-  borderTop: `1px ${colors.secondary} solid`,
-  borderRight: `1px ${colors.secondary} solid`,
-  background: isCurrent ? colors.primary + 20 : undefined
+  justifyContent: 'flex-start',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: 4,
+  borderTop: `1px ${colors.secondary}40 solid`,
+  borderRight: `1px ${colors.secondary}40 solid`,
+  background: isCurrent ? colors.primary + 30 : colors.background,
+  overflowY: 'auto'
 }))
 
 type DayIdxT = {
@@ -31,4 +35,28 @@ export const DayIdx = styled('div')<DayIdxT>(({ isCurrent }) => ({
   alignItems: 'flex-start',
   background: isCurrent ? colors.primary : undefined,
   color: isCurrent ? colors.white : colors.primary
+}))
+
+export const AddTaskButton = styled(Button)(() => ({
+  width: '100%',
+  borderRadius: 4,
+  margin: '4px 0',
+  color: colors.secondary,
+  '&:hover': {
+    background: colors.secondary + '40'
+  }
+}))
+
+type ColorButtonT = {
+  background: string
+}
+
+export const ColorButton = styled(IconButton)<ColorButtonT>(({ background }) => ({
+  background,
+  width: 26,
+  height: 26,
+  '&:hover': {
+    background,
+    opacity: 0.8
+  }
 }))

@@ -1,6 +1,8 @@
-export type SetStateType<S> = (arg: S | ((prevState: S) => S)) => void
+import { Dispatch, SetStateAction } from 'react'
 
-export type ApiResponse<T> = {
+export type SetStateType<S> = Dispatch<SetStateAction<S>>
+export type ObjKeysType<T> = { [key: string]: T }
+export type ApiResponseType<T> = {
   data: T | null
   err: string | null
 }
@@ -15,4 +17,16 @@ export type HolidayT = {
   counties: null | string[]
   launchYear: null | number
   types: ('Public' | 'Private')[]
+}
+
+export type TaskT = {
+  id: number
+  text: string
+  labelIds: number[]
+}
+
+export type LabelT = {
+  id: number
+  text: string
+  color: string
 }
