@@ -1,20 +1,21 @@
 import { memo } from 'react'
-import CloseIcon from '@mui/icons-material/Close'
-import LabelIcon from '@mui/icons-material/Label'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import { AppInput, PrimaryButton } from 'Commons'
-import { SetStateType, TaskT } from 'Utils/types'
-import { colors } from 'Theme'
+import { LabelT, SetStateType, TaskT } from 'Utils/types'
 import { ActionsContainer, AddDelete, DeleteIconButton, TaskEditContainer } from './styles'
+import LabelMenu from '../LabelMenu/LabelMenu'
 
 type PropsT = {
   task: TaskT
+  tasksKey: string
+  labels: LabelT[]
   setEditTask: SetStateType<TaskT | null>
   onSubmit: () => void
   onCancel: () => void
 }
 
-const TaskEdit = memo(({ setEditTask, task, onSubmit, onCancel }: PropsT) => {
+const TaskEdit = ({ setEditTask, task, labels, tasksKey, onSubmit, onCancel }: PropsT) => {
   const isNew = !task.id
 
   const onChangeText = (text: string) => {
@@ -38,15 +39,13 @@ const TaskEdit = memo(({ setEditTask, task, onSubmit, onCancel }: PropsT) => {
             {isNew ? 'Add' : 'Save'}
           </PrimaryButton>
           <DeleteIconButton onClick={onCancel}>
-            <CloseIcon />
+            <DeleteIcon />
           </DeleteIconButton>
         </AddDelete>
-        <DeleteIconButton>
-          <LabelIcon style={{ color: colors.primary }} />
-        </DeleteIconButton>
+        <LabelMenu taskId={task.id} tasksKey={tasksKey} labels={labels} labelIds={task.labelIds} />
       </ActionsContainer>
     </TaskEditContainer>
   )
-})
+}
 
 export default TaskEdit

@@ -1,12 +1,23 @@
 import React, { createContext, useContext } from 'react'
 
-import useTasks, { AddTaskPropsT, DelTaskPropsT, TasksStateT, UpdTaskPropsT } from './useTasks'
+import useTasks, {
+  AddLabelPropsT,
+  AddTaskPropsT,
+  DelTaskPropsT,
+  TasksStateT,
+  ToggleLabelPropsT,
+  UpdLabelPropsT,
+  UpdTaskPropsT
+} from './useTasks'
 
 export type ContextT = {
   tasksData: TasksStateT
   onAddTask: (arg: AddTaskPropsT) => void
   onUpdateTask: (arg: UpdTaskPropsT) => void
   onDeleteTask: (arg: DelTaskPropsT) => void
+  onAddLabel: (arg: AddLabelPropsT) => void
+  onUpdLabel: (arg: UpdLabelPropsT) => void
+  onToggleLabel: (arg: ToggleLabelPropsT) => void
 }
 
 const TasksContext = createContext<ContextT>(null!)

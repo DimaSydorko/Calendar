@@ -43,24 +43,6 @@ const DayCell = memo(({ date }: PropsT) => {
   const day = date?.getDate()
   const isCurrent = isNotEmpty && isSameDay(date, new Date())
 
-  useEffect(() => {
-    if (!editTask) return
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (dayRef.current && !dayRef.current.contains(event.target as Node)) {
-        if (!editTask.text) setEditTask(null)
-        else console.log('Clicked outside of component!')
-      }
-    }
-    document.addEventListener('mousedown', handleOutsideClick)
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick)
-    }
-  }, [dayRef, editTask])
-
-  const onCreateTask = () => {
-    setEditTask(initTask)
-  }
-
   const onSubmitAddTask = useCallback(() => {
     if (!editTask) return
 
@@ -69,6 +51,24 @@ const DayCell = memo(({ date }: PropsT) => {
 
     setEditTask(null)
   }, [editTask, onAddTask, onUpdateTask, tasksKey])
+
+  useEffect(() => {
+    if (!editTask) return
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (dayRef.current && !dayRef.current.contains(event.target as Node)) {
+        if (!editTask.text) setEditTask(null)
+        else onSubmitAddTask()
+      }
+    }
+    document.addEventListener('mousedown', handleOutsideClick)
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick)
+    }
+  }, [dayRef, editTask, onSubmitAddTask])
+
+  const onCreateTask = () => {
+    setEditTask(initTask)
+  }
 
   const onCancelEdit = useCallback(() => {
     if (!!editTask?.id) onDeleteTask({ taskId: editTask.id, dateKey: tasksKey })
@@ -95,6 +95,8 @@ const DayCell = memo(({ date }: PropsT) => {
           <TaskEdit
             key={task.id}
             task={editTask}
+            tasksKey={tasksKey}
+            labels={tasksData.labels}
             setEditTask={setEditTask}
             onSubmit={onSubmitAddTask}
             onCancel={onCancelEdit}
@@ -102,7 +104,14 @@ const DayCell = memo(({ date }: PropsT) => {
         )
       )}
       {editTask?.id === 0 && (
-        <TaskEdit task={editTask} setEditTask={setEditTask} onSubmit={onSubmitAddTask} onCancel={onCancelEdit} />
+        <TaskEdit
+          task={editTask}
+          tasksKey={tasksKey}
+          labels={tasksData.labels}
+          setEditTask={setEditTask}
+          onSubmit={onSubmitAddTask}
+          onCancel={onCancelEdit}
+        />
       )}
       {isNotEmpty && isHover && !editTask && (
         <AddTaskButton startIcon={<AddIcon />} onClick={onCreateTask}>

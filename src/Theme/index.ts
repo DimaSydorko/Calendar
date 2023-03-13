@@ -22,26 +22,26 @@ export const size = {
 }
 
 export const colors = {
+  text: grey[900],
   secondary: grey[500],
   primary: blue.A200,
   background: blueGrey[50],
   white: grey[50]
 }
-
-export const taskColors: string[] = [
-  indigo[500],
-  blue[500],
-  red[500],
-  pink[500],
-  purple[500],
-  cyan[500],
-  teal[500],
-  teal[500],
-  lightGreen[500],
-  lime[500],
-  amber[500],
-  orange[500],
-  brown[500]
+type ColorDeepsT = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+export const getTaskColors = (colorDeeps: ColorDeepsT = 500): string[] => [
+  indigo[colorDeeps],
+  blue[colorDeeps],
+  red[colorDeeps],
+  pink[colorDeeps],
+  purple[colorDeeps],
+  cyan[colorDeeps],
+  teal[colorDeeps],
+  lightGreen[colorDeeps],
+  lime[colorDeeps],
+  amber[colorDeeps],
+  orange[colorDeeps],
+  brown[colorDeeps]
 ]
 
 export const themeStyle = (mode: PaletteMode) =>

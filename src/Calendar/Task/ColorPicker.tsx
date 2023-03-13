@@ -3,7 +3,6 @@ import { Menu } from '@mui/material'
 import styled from 'styled-components'
 
 import { ColorButton } from '../DayCell/styles'
-import { taskColors } from 'Theme'
 
 const ColorsMenu = styled.div({
   width: 64,
@@ -41,9 +40,9 @@ const ColorPicker = ({ value, onChange }: PropsT) => {
         }}
       >
         <ColorsMenu>
-          {taskColors.map((color, idx) => (
-            <ColorButton key={idx} background={color} onClick={() => onChange(color)} />
-          ))}
+          {/*{taskColors.map((color, idx) => (*/}
+          {/*  <ColorButton key={idx} background={color} onClick={() => onChange(color)} />*/}
+          {/*))}*/}
         </ColorsMenu>
       </Menu>
     </>
