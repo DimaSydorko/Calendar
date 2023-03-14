@@ -10,12 +10,14 @@ export const DayOfWeek = styled('div')(() => ({
   borderWidth: 1
 }))
 
-type MounthT = {
+type MonthT = {
   isMonth?: boolean
 }
 
-export const Mounth = styled('div')<MounthT>(() => ({
+export const Month = styled('div')<MonthT>(() => ({
   width: '100vw',
+  minWidth: '1100px',
+  overflow: 'auto',
   display: 'grid',
   gridTemplateColumns: 'repeat(7, 1fr)',
   border: `1px ${colors.secondary} solid`,

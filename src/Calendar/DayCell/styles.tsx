@@ -40,7 +40,8 @@ export const DayIdx = styled('div')<DayIdxT>(({ isCurrent }) => ({
 export const AddTaskButton = styled(Button)(() => ({
   width: '100%',
   borderRadius: 4,
-  margin: '4px 0',
+  margin: '4px 0 0',
+  height: 18,
   color: colors.secondary,
   '&:hover': {
     background: colors.secondary + '40'
@@ -63,5 +64,6 @@ export const ColorButton = styled(IconButton)<ColorButtonT>(({ background }) => 
 
 export const DroppableTask = styled('div')(({}) => ({
   height: '100%',
-  width: '100%'
+  width: '100%',
+  overflowY: 'scroll'
 }))

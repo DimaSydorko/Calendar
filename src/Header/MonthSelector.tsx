@@ -1,14 +1,16 @@
 import { memo } from 'react'
 import styled from 'styled-components'
-import { useCalendarContext } from '../State/useCalendar'
 import { IconButton } from '@mui/material'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import { getMonthYear } from '../Utils'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 
-export const Selector = styled('div')(() => ({
+import { useCalendarContext } from 'State/useCalendar'
+import { getMonthYear } from 'Utils'
+
+export const Selector = styled('div')(({}) => ({
   width: '240px',
   display: 'flex',
+  textAlign: 'center',
   justifyContent: 'space-between',
   alignItems: 'center'
 }))

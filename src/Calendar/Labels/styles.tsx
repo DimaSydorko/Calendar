@@ -3,14 +3,11 @@ import { colors } from 'Theme'
 import { Button } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
 
-type LabelsMenuT = {
-  // left: string
-}
-
-export const LabelsMenu = styled('div')<LabelsMenuT>(({}) => ({
+export const LabelsMenu = styled('div')(({}) => ({
   position: 'fixed',
   zIndex: 100,
-  width: 'calc(100vw / 7 - 20px) ',
+  width: 'calc(100vw / 7 - 20px)',
+  minWidth: '136px',
   borderRadius: 8,
   padding: 8,
   background: colors.white,
