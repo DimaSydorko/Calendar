@@ -1,18 +1,27 @@
-import { useCallback } from 'react'
+import { RefObject, useCallback } from 'react'
 import { IconButton, InputAdornment } from '@mui/material'
 import ImageIcon from '@mui/icons-material/Image'
 import DescriptionIcon from '@mui/icons-material/Description'
 import { Search } from '@mui/icons-material'
+import html2canvas from 'html2canvas'
 
+import { useTasksContext } from 'State/useTasks'
 import { useSearchContext } from 'State/useSearch'
+import { useCalendarContext } from 'State/useCalendar'
+import LabelSearch from 'Calendar/Labels/LabelSearch'
 import { AppInput } from 'Commons'
 
 import MonthSelector from './MonthSelector'
-import LabelSearch from '../Calendar/Labels/LabelSearch'
 import { ButtonsContainer, HeaderContent } from './styles'
 
-const Header = () => {
+type PropsT = {
+  calendarRef: RefObject<HTMLDivElement>
+}
+
+const Header = ({ calendarRef }: PropsT) => {
   const { searchData, onSearchValue, onSearchLabel } = useSearchContext()
+  const { calendarData } = useCalendarContext()
+  const { tasksData } = useTasksContext()
 
   const onSearch = (value: string) => {
     onSearchValue({ value })
@@ -24,6 +33,34 @@ const Header = () => {
     },
     [onSearchLabel]
   )
+
+  const handleDownloadImage = async () => {
+    const element = calendarRef.current
+    if (!element) return
+    const canvas = await html2canvas(element)
+
+    const data = canvas.toDataURL('image/jpg')
+    const link = document.createElement('a')
+
+    link.href = data
+    link.download = 'Calendar.jpg'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const handleDownloadJson = () => {
+    const store = {
+      calendarData,
+      tasksData
+    }
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(JSON.stringify(store))}`
+    const link = document.createElement('a')
+    link.href = jsonString
+    link.download = 'store.json'
+
+    link.click()
+  }
 
   return (
     <HeaderContent>
@@ -47,10 +84,10 @@ const Header = () => {
       />
       <ButtonsContainer>
         <LabelSearch searchLabelId={searchData.labelId} onLabelSearch={_onSearchLabel} />
-        <IconButton>
+        <IconButton onClick={handleDownloadImage}>
           <ImageIcon />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={handleDownloadJson}>
           <DescriptionIcon />
         </IconButton>
       </ButtonsContainer>

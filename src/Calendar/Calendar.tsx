@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { RefObject, useMemo } from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 
 import { useCalendarContext } from 'State/useCalendar'
@@ -9,7 +9,11 @@ import { getDaysInMonth } from 'Utils'
 import DayCell from './DayCell/DayCell'
 import { DayOfWeek, Mounth } from './styles'
 
-const Calendar = () => {
+type PropsT = {
+  calendarRef: RefObject<HTMLDivElement>
+}
+
+const Calendar = ({ calendarRef }: PropsT) => {
   const { calendarData } = useCalendarContext()
   const { onMoveTask } = useTasksContext()
   const { selectedMonth } = calendarData
@@ -24,7 +28,7 @@ const Calendar = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Mounth>
+      <Mounth ref={calendarRef}>
         {daysOfWeek.map(day => (
           <DayOfWeek key={day}>{day}</DayOfWeek>
         ))}
