@@ -1,8 +1,9 @@
 import { useCallback, useReducer } from 'react'
+import { DraggableLocation } from 'react-beautiful-dnd'
+
 import { LabelT, ObjKeysType, TaskT } from 'Utils/types'
 import { getTaskColors } from 'Theme'
 import { ContextT } from './index'
-import { DraggableLocation } from 'react-beautiful-dnd'
 
 export type AddTaskPropsT = { task: TaskT; dateKey: string }
 export type UpdTaskPropsT = AddTaskPropsT
@@ -54,12 +55,22 @@ const tasksReducer = (state: TasksStateT, { type, payload }: ActionT): TasksStat
       const newKey = payload.destination.droppableId
 
       const source = state.tasks[oldKey]
-      const dest = state.tasks[newKey]
+      let dest = state.tasks[newKey]
 
       const task = source.find(t => t.id === +payload.draggableId)
       const delOld = source.filter(t => t.id !== +payload.draggableId)
-      if (!!task) dest.splice(payload.destination.index, 1, task)
-      return { ...state, tasks: { ...state.tasks, [oldKey]: delOld, [newKey]: dest } }
+
+      if (oldKey === newKey) {
+        if (!!task) delOld.splice(payload.destination.index, 0, task)
+
+        return { ...state, tasks: { ...state.tasks, [oldKey]: delOld } }
+      } else {
+        if (!!task) {
+          if (!!dest) dest.splice(payload.destination.index, 0, task)
+          else dest = [task]
+        }
+        return { ...state, tasks: { ...state.tasks, [oldKey]: delOld, [newKey]: dest } }
+      }
     }
     case 'ADD_LABEL':
       return { ...state, labels: [...state.labels, payload.label] }

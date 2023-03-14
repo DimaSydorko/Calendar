@@ -60,3 +60,8 @@ export const ColorButton = styled(IconButton)<ColorButtonT>(({ background }) => 
     opacity: 0.8
   }
 }))
+
+export const DroppableTask = styled('div')(({}) => ({
+  height: '100%',
+  width: '100%'
+}))

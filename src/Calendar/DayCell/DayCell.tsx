@@ -9,7 +9,7 @@ import { useTasksContext } from 'State/useTasks'
 import { dateToObjKey, isSameDay } from 'Utils'
 import { TaskT } from 'Utils/types'
 
-import { AddTaskButton, Day, DayIdx } from './styles'
+import { AddTaskButton, Day, DayIdx, DroppableTask } from './styles'
 import TaskEdit from '../Task/TaskEdit'
 import Task from '../Task/Task'
 
@@ -90,13 +90,13 @@ const DayCell = memo(({ date }: PropsT) => {
         </Tooltip>
       )}
       <Droppable droppableId={tasksKey || '-'}>
-        {(provided, snapshot) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
+        {provided => (
+          <DroppableTask {...provided.droppableProps} ref={provided.innerRef}>
             {tasks?.map((task, idx) => {
               const key = `${task.id}${task.labelIds.length}`
               return (
                 <Draggable key={key} draggableId={`${task.id}`} index={idx}>
-                  {(provided, snapshot) => (
+                  {provided => (
                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       {task.id !== editTask?.id ? (
                         <Task key={key} task={task} labels={tasksData.labels} onEdit={setEditTask} />
@@ -117,7 +117,7 @@ const DayCell = memo(({ date }: PropsT) => {
               )
             })}
             {provided.placeholder}
-          </div>
+          </DroppableTask>
         )}
       </Droppable>
       {editTask?.id === 0 && (
