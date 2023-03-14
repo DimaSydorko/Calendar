@@ -8,14 +8,13 @@ import Labels from '../Labels/Labels'
 
 type PropsT = {
   task: TaskT
-  tasksKey: string
   labels: LabelT[]
   setEditTask: SetStateType<TaskT | null>
   onSubmit: () => void
   onCancel: () => void
 }
 
-const TaskEdit = ({ setEditTask, task, labels, tasksKey, onSubmit, onCancel }: PropsT) => {
+const TaskEdit = ({ setEditTask, task, labels, onSubmit, onCancel }: PropsT) => {
   const isNew = !task.id
   const labelIds = task.labelIds
 
@@ -44,14 +43,7 @@ const TaskEdit = ({ setEditTask, task, labels, tasksKey, onSubmit, onCancel }: P
             <DeleteIcon />
           </DeleteIconButton>
         </AddDelete>
-        <LabelMenu
-          taskId={task.id}
-          tasksKey={tasksKey}
-          labels={labels}
-          labelIds={labelIds}
-          setEditTask={setEditTask}
-          onSubmit={onSubmit}
-        />
+        <LabelMenu labels={labels} labelIds={labelIds} setEditTask={setEditTask} onSubmit={onSubmit} />
       </ActionsContainer>
     </TaskEditContainer>
   )

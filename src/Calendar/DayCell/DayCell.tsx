@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add'
 
 import { useCalendarContext } from 'State/useCalendar'
 import { useTasksContext } from 'State/useTasks'
+import { useSearchContext } from 'State/useSearch'
 import { dateToObjKey, isSameDay } from 'Utils'
 import { TaskT } from 'Utils/types'
 
@@ -25,6 +26,7 @@ type PropsT = {
 
 const DayCell = memo(({ date }: PropsT) => {
   const { calendarData } = useCalendarContext()
+  const { searchData } = useSearchContext()
   const { tasksData, onAddTask, onUpdateTask, onDeleteTask } = useTasksContext()
   const { holidays } = calendarData
 
@@ -34,6 +36,10 @@ const DayCell = memo(({ date }: PropsT) => {
 
   const tasksKey: string = date ? dateToObjKey(date) : ''
   const tasks: TaskT[] | undefined = useMemo(() => [...(tasksData.tasks[tasksKey] || [])], [tasksData.tasks, tasksKey])
+  const tasksSearched = tasks.filter(t => (!searchData.value ? true : t.text.includes(searchData.value)))
+  const tasksFiltered = tasksSearched.filter(t =>
+    !searchData.labelId ? true : t.labelIds.includes(searchData.labelId)
+  )
   const isNotEmpty = !!date
 
   const holiday: string = holidays
@@ -92,10 +98,15 @@ const DayCell = memo(({ date }: PropsT) => {
       <Droppable droppableId={tasksKey || '-'}>
         {provided => (
           <DroppableTask {...provided.droppableProps} ref={provided.innerRef}>
-            {tasks?.map((task, idx) => {
+            {tasksFiltered?.map((task, idx) => {
               const key = `${task.id}${task.labelIds.length}`
               return (
-                <Draggable key={key} draggableId={`${task.id}`} index={idx}>
+                <Draggable
+                  key={key}
+                  draggableId={`${task.id}`}
+                  index={idx}
+                  isDragDisabled={!!searchData.labelId || !!searchData.value}
+                >
                   {provided => (
                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       {task.id !== editTask?.id ? (
@@ -105,7 +116,6 @@ const DayCell = memo(({ date }: PropsT) => {
                           key={key}
                           labels={tasksData.labels}
                           task={editTask}
-                          tasksKey={tasksKey}
                           setEditTask={setEditTask}
                           onSubmit={onSubmitAddTask}
                           onCancel={onCancelEdit}
@@ -123,7 +133,6 @@ const DayCell = memo(({ date }: PropsT) => {
       {editTask?.id === 0 && (
         <TaskEdit
           task={editTask}
-          tasksKey={tasksKey}
           labels={tasksData.labels}
           setEditTask={setEditTask}
           onSubmit={onSubmitAddTask}

@@ -15,8 +15,6 @@ import { CheckedIcon, Label, LabelContainer, LabelsMenu } from './styles'
 
 type PropsT = {
   labelIds: number[]
-  taskId?: number
-  tasksKey?: string
   onSubmit: () => void
   labels: LabelT[]
   setEditTask: SetStateType<TaskT | null>
@@ -28,7 +26,7 @@ const initLabel: LabelT = {
   text: ''
 }
 
-const LabelMenu = memo(({ labelIds, labels, taskId, tasksKey, setEditTask, onSubmit }: PropsT) => {
+const LabelMenu = memo(({ labelIds, labels, setEditTask, onSubmit }: PropsT) => {
   const { onAddLabel, onUpdLabel } = useTasksContext()
   const [isLabelsMenu, setIsLabelsMenu] = useState<boolean>(false)
   const [editLabel, setEditLabel] = useState<LabelT | null>(null)

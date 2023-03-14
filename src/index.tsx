@@ -4,6 +4,7 @@ import { CssBaseline } from '@mui/material'
 import { SnackbarProvider } from 'notistack'
 
 import TasksProvider from 'State/useTasks'
+import SearchProvider from 'State/useSearch'
 import CalendarProvider from 'State/useCalendar'
 import reportWebVitals from 'reportWebVitals'
 import App from 'App'
@@ -13,10 +14,12 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <CalendarProvider>
     <TasksProvider>
-      <CssBaseline />
-      <SnackbarProvider maxSnack={3}>
-        <App />
-      </SnackbarProvider>
+      <SearchProvider>
+        <CssBaseline />
+        <SnackbarProvider maxSnack={3}>
+          <App />
+        </SnackbarProvider>
+      </SearchProvider>
     </TasksProvider>
   </CalendarProvider>
 )
