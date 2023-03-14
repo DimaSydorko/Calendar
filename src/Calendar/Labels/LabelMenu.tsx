@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
-import { LabelT } from 'Utils/types'
+import { LabelT, SetStateType, TaskT } from 'Utils/types'
 import { AppInput, PrimaryButton } from 'Commons'
 import { useTasksContext } from 'State/useTasks'
 import { colors, getTaskColors } from 'Theme'
@@ -17,7 +17,9 @@ type PropsT = {
   labelIds: number[]
   taskId?: number
   tasksKey?: string
+  onSubmit: () => void
   labels: LabelT[]
+  setEditTask: SetStateType<TaskT | null>
 }
 
 const initLabel: LabelT = {
@@ -26,10 +28,9 @@ const initLabel: LabelT = {
   text: ''
 }
 
-const LabelMenu = memo(({ labelIds, labels, taskId, tasksKey }: PropsT) => {
-  const { onAddLabel, onUpdLabel, onToggleLabel } = useTasksContext()
+const LabelMenu = memo(({ labelIds, labels, taskId, tasksKey, setEditTask, onSubmit }: PropsT) => {
+  const { onAddLabel, onUpdLabel } = useTasksContext()
   const [isLabelsMenu, setIsLabelsMenu] = useState<boolean>(false)
-  const [_labelIds, setLabelIds] = useState<number[]>(labelIds)
   const [editLabel, setEditLabel] = useState<LabelT | null>(null)
 
   const onLabelSave = () => {
@@ -42,13 +43,16 @@ const LabelMenu = memo(({ labelIds, labels, taskId, tasksKey }: PropsT) => {
   }
 
   const onLabelsSave = () => {
-    if (!taskId || !tasksKey) return
-    onToggleLabel({ taskId, dateKey: tasksKey, labelIds: _labelIds })
+    onSubmit()
     setIsLabelsMenu(false)
   }
 
   const onCheckLabel = (labelId: number, isChecked: boolean) => {
-    setLabelIds(p => (isChecked ? p.filter(l => l !== labelId) : [...p, labelId]))
+    setEditTask(p => {
+      if (!p) return p
+      if (isChecked) return { ...p, labelIds: p.labelIds.filter(l => l !== labelId) }
+      else return { ...p, labelIds: [...p.labelIds, labelId] }
+    })
   }
 
   const onLabelTextChange = (text: string) => {
@@ -72,7 +76,7 @@ const LabelMenu = memo(({ labelIds, labels, taskId, tasksKey }: PropsT) => {
                 Add Label
               </AddTaskButton>
               {labels.map(label => {
-                const isChecked = _labelIds.includes(label.id)
+                const isChecked = labelIds.includes(label.id)
                 return (
                   <LabelContainer key={label.id}>
                     <Checkbox

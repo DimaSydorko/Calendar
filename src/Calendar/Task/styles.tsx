@@ -4,7 +4,7 @@ import { colors } from 'Theme'
 export const TaskContainer = styled('div')(({}) => ({
   position: 'relative',
   background: colors.white,
-  width: 'calc(100% - 4px)',
+  width: 'calc(100vw / 7 - 16px)',
   boxShadow: '2px 2px 4px 0px rgba(34, 60, 80, 0.2)',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-word',

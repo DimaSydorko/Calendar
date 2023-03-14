@@ -47,3 +47,31 @@ export const LabelContainer = styled('div')(({}) => ({
 }))
 
 export const CheckedIcon = () => <CheckIcon fontSize={'small'} style={{}} />
+
+type LabelsViewContainerT = {
+  isInEdit?: boolean
+}
+
+export const LabelsViewContainer = styled('div')<LabelsViewContainerT>(({ isInEdit = false }) => ({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  flexWrap: 'wrap',
+  gap: 4,
+  padding: isInEdit ? '4px 4px 0 4px' : '4px 0 0 0'
+}))
+
+type LabelViewT = {
+  background: string
+}
+
+export const LabelView = styled('div')<LabelViewT>(({ background }) => ({
+  borderRadius: 8,
+  background,
+  padding: '2px 4px',
+  fontSize: 12,
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  color: colors.text
+}))

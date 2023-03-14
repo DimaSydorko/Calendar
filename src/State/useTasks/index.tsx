@@ -4,8 +4,8 @@ import useTasks, {
   AddLabelPropsT,
   AddTaskPropsT,
   DelTaskPropsT,
+  MoveTaskPropsT,
   TasksStateT,
-  ToggleLabelPropsT,
   UpdLabelPropsT,
   UpdTaskPropsT
 } from './useTasks'
@@ -15,9 +15,9 @@ export type ContextT = {
   onAddTask: (arg: AddTaskPropsT) => void
   onUpdateTask: (arg: UpdTaskPropsT) => void
   onDeleteTask: (arg: DelTaskPropsT) => void
+  onMoveTask: (arg: MoveTaskPropsT) => void
   onAddLabel: (arg: AddLabelPropsT) => void
   onUpdLabel: (arg: UpdLabelPropsT) => void
-  onToggleLabel: (arg: ToggleLabelPropsT) => void
 }
 
 const TasksContext = createContext<ContextT>(null!)

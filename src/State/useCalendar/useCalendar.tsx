@@ -16,7 +16,7 @@ const initialState: CalendarStateT = {
   holidays: []
 }
 
-const tableReducer = (state: CalendarStateT, { type, payload }: ActionT): CalendarStateT => {
+const calendarReducer = (state: CalendarStateT, { type, payload }: ActionT): CalendarStateT => {
   switch (type) {
     case 'SET_MONTH':
       if (payload === undefined) {
@@ -34,7 +34,7 @@ const tableReducer = (state: CalendarStateT, { type, payload }: ActionT): Calend
 }
 
 const useCalendar = (): ContextT => {
-  const [calendarData, dispatch] = useReducer(tableReducer, initialState)
+  const [calendarData, dispatch] = useReducer(calendarReducer, initialState)
 
   const onChangeMonth = useCallback((isIncrease?: boolean) => {
     dispatch({ type: 'SET_MONTH', payload: isIncrease })

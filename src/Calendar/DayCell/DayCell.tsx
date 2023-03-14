@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { Tooltip } from '@mui/material'
 import StarsIcon from '@mui/icons-material/Stars'
 import AddIcon from '@mui/icons-material/Add'
@@ -32,7 +33,7 @@ const DayCell = memo(({ date }: PropsT) => {
   const [isHover, setIsHover] = useState<boolean>(false)
 
   const tasksKey: string = date ? dateToObjKey(date) : ''
-  const tasks: TaskT[] | undefined = useMemo(() => tasksData.tasks[tasksKey], [tasksData.tasks, tasksKey])
+  const tasks: TaskT[] | undefined = useMemo(() => [...(tasksData.tasks[tasksKey] || [])], [tasksData.tasks, tasksKey])
   const isNotEmpty = !!date
 
   const holiday: string = holidays
@@ -44,7 +45,7 @@ const DayCell = memo(({ date }: PropsT) => {
   const isCurrent = isNotEmpty && isSameDay(date, new Date())
 
   const onSubmitAddTask = useCallback(() => {
-    if (!editTask) return
+    if (!editTask?.text) return
 
     if (editTask.id === 0) onAddTask({ task: editTask, dateKey: tasksKey })
     else onUpdateTask({ task: editTask, dateKey: tasksKey })
@@ -88,21 +89,37 @@ const DayCell = memo(({ date }: PropsT) => {
           <StarsIcon style={{ color: '#e6b501', position: 'absolute', right: 2, top: 2 }} />
         </Tooltip>
       )}
-      {tasks?.map(task =>
-        task.id !== editTask?.id ? (
-          <Task key={task.id} task={task} onEdit={setEditTask} />
-        ) : (
-          <TaskEdit
-            key={task.id}
-            task={editTask}
-            tasksKey={tasksKey}
-            labels={tasksData.labels}
-            setEditTask={setEditTask}
-            onSubmit={onSubmitAddTask}
-            onCancel={onCancelEdit}
-          />
-        )
-      )}
+      <Droppable droppableId={tasksKey || '-'}>
+        {(provided, snapshot) => (
+          <div {...provided.droppableProps} ref={provided.innerRef}>
+            {tasks?.map((task, idx) => {
+              const key = `${task.id}${task.labelIds.length}`
+              return (
+                <Draggable key={key} draggableId={`${task.id}`} index={idx}>
+                  {(provided, snapshot) => (
+                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                      {task.id !== editTask?.id ? (
+                        <Task key={key} task={task} labels={tasksData.labels} onEdit={setEditTask} />
+                      ) : (
+                        <TaskEdit
+                          key={key}
+                          labels={tasksData.labels}
+                          task={editTask}
+                          tasksKey={tasksKey}
+                          setEditTask={setEditTask}
+                          onSubmit={onSubmitAddTask}
+                          onCancel={onCancelEdit}
+                        />
+                      )}
+                    </div>
+                  )}
+                </Draggable>
+              )
+            })}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
       {editTask?.id === 0 && (
         <TaskEdit
           task={editTask}
