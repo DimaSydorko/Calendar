@@ -15,7 +15,7 @@ type MonthT = {
 }
 
 export const Month = styled('div')<MonthT>(() => ({
-  width: '100vw',
+  width: 'calc(100vw - 4px)',
   minWidth: '1100px',
   overflow: 'auto',
   display: 'grid',

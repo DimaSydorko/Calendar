@@ -4,7 +4,7 @@ import { Button, MenuItem } from '@mui/material'
 import { colors, size } from 'Theme'
 
 export const HeaderContent = styled('div')(() => ({
-  width: '100vw',
+  width: 'calc(100vw - 4px)',
   height: size.header,
   padding: '8px',
   overflow: 'hidden',
